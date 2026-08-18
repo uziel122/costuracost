@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-export async function POST() {
-  const response = NextResponse.redirect(
-    new URL("/", process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000")
-  );
+export async function POST(request: Request) {
+  const url = new URL("/", request.url);
+
+  const response = NextResponse.redirect(url);
 
   response.cookies.set("token", "", {
     httpOnly: true,
