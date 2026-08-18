@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { getCurrentUser } from "@/lib/auth";
 
 const modules = [
@@ -29,6 +30,16 @@ const modules = [
     href: "/dashboard/quotes",
   },
 ];
+
+async function logout() {
+  "use server";
+
+  const cookieStore = await cookies();
+
+  cookieStore.delete("token");
+
+  redirect("/");
+}
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -72,18 +83,14 @@ export default async function DashboardPage() {
           ))}
         </div>
 
-        <form
-  action="/api/auth/logout"
-  method="POST"
-  className="mt-10"
->
-  <button
-    type="submit"
-    className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white hover:bg-red-700"
-  >
-    Cerrar sesión
-  </button>
-</form>
+        <form action={logout} className="mt-10">
+          <button
+            type="submit"
+            className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white hover:bg-red-700"
+          >
+            Cerrar sesión
+          </button>
+        </form>
       </div>
     </main>
   );
