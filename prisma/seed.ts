@@ -1,67 +1,205 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Limpiar datos existentes
-  await prisma.quote.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.fabric.deleteMany();
-  await prisma.garmentSize.deleteMany();
-  await prisma.laborCost.deleteMany();
+  console.log("🌱 Insertando datos iniciales...");
 
-  // Usuario de prueba (Password: 123456)
-  const hashedPassword = await bcrypt.hash('123456', 10);
-  await prisma.user.create({
-    data: {
-      name: 'Diseñador Demo',
-      email: 'demo@costuracost.com',
-      password: hashedPassword,
-    },
-  });
+  // =========================
+  // TELAS
+  // =========================
 
-  // Telas
   await prisma.fabric.createMany({
     data: [
-      { name: 'Algodón Peinado', material: 'Algodón 100%', costPerMeter: 85.50, color: 'Blanco', supplier: 'Textiles México' },
-      { name: 'Mezclilla 14oz', material: 'Algodón', costPerMeter: 140.00, color: 'Azul Indigo', supplier: 'La Marina' },
-      { name: 'Lino Italiano', material: 'Lino 100%', costPerMeter: 210.00, color: 'Beige', supplier: 'Textiles del Norte' },
-      { name: 'Seda Satín', material: 'Seda', costPerMeter: 320.00, color: 'Negro', supplier: 'Importaciones Moda' },
-      { name: 'Poliéster Deportivo', material: 'Poliéster', costPerMeter: 65.00, color: 'Rojo', supplier: 'Textiles México' },
+      {
+        name: "Algodón",
+        material: "Algodón",
+        costPerMeter: 85.5,
+        color: "Blanco",
+        supplier: "Proveedor General",
+      },
+      {
+        name: "Poliéster",
+        material: "Poliéster",
+        costPerMeter: 65,
+        color: "Negro",
+        supplier: "Proveedor General",
+      },
+      {
+        name: "Mezclilla",
+        material: "Denim",
+        costPerMeter: 120,
+        color: "Azul",
+        supplier: "Proveedor General",
+      },
+      {
+        name: "Lino",
+        material: "Lino",
+        costPerMeter: 150,
+        color: "Beige",
+        supplier: "Proveedor General",
+      },
+      {
+        name: "Seda",
+        material: "Seda",
+        costPerMeter: 220,
+        color: "Rojo",
+        supplier: "Proveedor General",
+      },
     ],
   });
 
-  // Prendas y Tallas
-  const garmentSizes = [
-    { garmentType: 'Playera', size: 'S', metersRequired: 1.2 },
-    { garmentType: 'Playera', size: 'M', metersRequired: 1.4 },
-    { garmentType: 'Playera', size: 'L', metersRequired: 1.6 },
-    { garmentType: 'Playera', size: 'XL', metersRequired: 1.8 },
-    { garmentType: 'Pantalón', size: 'M', metersRequired: 2.2 },
-    { garmentType: 'Pantalón', size: 'L', metersRequired: 2.5 },
-    { garmentType: 'Vestido', size: 'M', metersRequired: 3.0 },
-    { garmentType: 'Chamarra', size: 'L', metersRequired: 2.8 },
-  ];
-  await prisma.garmentSize.createMany({ data: garmentSizes });
+  // =========================
+  // TIPOS DE PRENDA Y TALLAS
+  // =========================
 
-  // Mano de Obra
+  await prisma.garmentSize.createMany({
+    data: [
+      // Playera
+      {
+        garmentType: "Playera",
+        size: "S",
+        metersRequired: 1.2,
+      },
+      {
+        garmentType: "Playera",
+        size: "M",
+        metersRequired: 1.4,
+      },
+      {
+        garmentType: "Playera",
+        size: "L",
+        metersRequired: 1.5,
+      },
+      {
+        garmentType: "Playera",
+        size: "XL",
+        metersRequired: 1.7,
+      },
+      {
+        garmentType: "Playera",
+        size: "XXL",
+        metersRequired: 1.9,
+      },
+
+      // Pantalón
+      {
+        garmentType: "Pantalón",
+        size: "S",
+        metersRequired: 1.5,
+      },
+      {
+        garmentType: "Pantalón",
+        size: "M",
+        metersRequired: 1.7,
+      },
+      {
+        garmentType: "Pantalón",
+        size: "L",
+        metersRequired: 1.9,
+      },
+      {
+        garmentType: "Pantalón",
+        size: "XL",
+        metersRequired: 2.1,
+      },
+      {
+        garmentType: "Pantalón",
+        size: "XXL",
+        metersRequired: 2.3,
+      },
+
+      // Vestido
+      {
+        garmentType: "Vestido",
+        size: "S",
+        metersRequired: 2.0,
+      },
+      {
+        garmentType: "Vestido",
+        size: "M",
+        metersRequired: 2.2,
+      },
+      {
+        garmentType: "Vestido",
+        size: "L",
+        metersRequired: 2.4,
+      },
+      {
+        garmentType: "Vestido",
+        size: "XL",
+        metersRequired: 2.6,
+      },
+      {
+        garmentType: "Vestido",
+        size: "XXL",
+        metersRequired: 2.8,
+      },
+
+      // Sudadera
+      {
+        garmentType: "Sudadera",
+        size: "S",
+        metersRequired: 1.8,
+      },
+      {
+        garmentType: "Sudadera",
+        size: "M",
+        metersRequired: 2.0,
+      },
+      {
+        garmentType: "Sudadera",
+        size: "L",
+        metersRequired: 2.2,
+      },
+      {
+        garmentType: "Sudadera",
+        size: "XL",
+        metersRequired: 2.4,
+      },
+      {
+        garmentType: "Sudadera",
+        size: "XXL",
+        metersRequired: 2.6,
+      },
+    ],
+  });
+
+  // =========================
+  // COSTOS DE MANO DE OBRA
+  // =========================
+
   await prisma.laborCost.createMany({
     data: [
-      { garmentType: 'Playera', complexity: 'Básica', cost: 45.00 },
-      { garmentType: 'Playera', complexity: 'Intermedia', cost: 70.00 },
-      { garmentType: 'Pantalón', complexity: 'Intermedia', cost: 120.00 },
-      { garmentType: 'Vestido', complexity: 'Alta', cost: 280.00 },
-      { garmentType: 'Chamarra', complexity: 'Alta', cost: 350.00 },
+      {
+        garmentType: "Playera",
+        complexity: "Básica",
+        cost: 70,
+      },
+      {
+        garmentType: "Pantalón",
+        complexity: "Intermedia",
+        cost: 120,
+      },
+      {
+        garmentType: "Vestido",
+        complexity: "Alta",
+        cost: 180,
+      },
+      {
+        garmentType: "Sudadera",
+        complexity: "Intermedia",
+        cost: 130,
+      },
     ],
   });
 
-  console.log('🌱 Seed ejecutado correctamente.');
+  console.log("✅ Datos iniciales insertados correctamente.");
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
+  .catch((error) => {
+    console.error("❌ Error al insertar datos:", error);
     process.exit(1);
   })
   .finally(async () => {

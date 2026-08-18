@@ -9,6 +9,11 @@
     "postinstall": "prisma generate",
     "lint": "eslint"
   },
+
+ "prisma": {
+  "seed": "tsx prisma/seed.ts"
+  },
+
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^6.4.0",
