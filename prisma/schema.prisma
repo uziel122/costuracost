@@ -1,0 +1,58 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  quotes    Quote[]
+}
+
+model Fabric {
+  id          String   @id @default(uuid())
+  name        String
+  material    String
+  costPerMeter Float
+  color       String
+  supplier    String
+  createdAt   DateTime @default(now())
+}
+
+model GarmentSize {
+  id            String   @id @default(uuid())
+  garmentType   String   // Ej: Playera, Pantalón, Vestido
+  size          String   // Ej: S, M, L, XL, XXL
+  metersRequired Float
+  createdAt     DateTime @default(now())
+}
+
+model LaborCost {
+  id          String   @id @default(uuid())
+  garmentType String
+  complexity  String   // Básica, Intermedia, Alta
+  cost        Float
+  createdAt   DateTime @default(now())
+}
+
+model Quote {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  fabricName      String
+  garmentType     String
+  size            String
+  metersRequired  Float
+  fabricCost      Float
+  laborCost       Float
+  profitPercentage Float
+  total           Float
+  createdAt       DateTime @default(now())
+}
