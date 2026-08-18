@@ -72,14 +72,18 @@ export default async function DashboardPage() {
           ))}
         </div>
 
-        <form action="/api/auth/logout" method="POST" className="mt-10">
-          <button
-            type="submit"
-            className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white hover:bg-red-700"
-          >
-            Cerrar sesión
-          </button>
-        </form>
+        <form
+  action="/api/auth/logout"
+  method="POST"
+  className="mt-10"
+>
+  <button
+    type="submit"
+    className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white hover:bg-red-700"
+  >
+    Cerrar sesión
+  </button>
+</form>
       </div>
     </main>
   );
